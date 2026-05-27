@@ -1,0 +1,86 @@
+doctype html
+html(lang="en")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport" content="width=device-width, initial-scale=1.0")
+    title Login Form
+    // External CSS Link
+    link(rel="stylesheet" href="/css/login.css")
+
+  body
+    // Main Login Card Form Area
+    #loginCard.login-container
+      h2 Login
+      
+      // Removed action/method from standard form to handle it cleanly via JS
+      form#loginForm(novalidate=true)
+        .form-group
+          input#loginIdentity(type="text" name="email" placeholder="Email ")
+          .error-message Please enter your email 
+
+        .form-group
+          input#loginPassword(type="password" name="password" placeholder="Password")
+          .error-message Password is required
+
+        button.btn-login(type="submit") Login
+
+      p.footer-text
+        | Don’t have an account? - 
+        a(href="#") Signup
+
+    // Redirection State Screen (05. After Login Layout)
+    #congratsCard.congrats-card(style="display: none;")
+      h1 Congratulations!
+      p You have successfully signed into the Refactory system. Feel at home
+
+    script.
+      const loginForm = document.getElementById('loginForm');
+      const loginCard = document.getElementById('loginCard');
+      const congratsCard = document.getElementById('congratsCard');
+
+      // Form validation & backend execution engine
+      loginForm.addEventListener('submit', function(e) {
+          // Prevent standard dispatch during frontend validation loops
+          e.preventDefault();
+
+          const identity = document.getElementById('loginIdentity');
+          const password = document.getElementById('loginPassword');
+
+          // Toggles red validation warnings or clean green success frameworks
+          function validateField(inputElement, condition) {
+              if (condition) {
+                  inputElement.classList.remove('error');
+                  inputElement.classList.add('success');
+              } else {
+                  inputElement.classList.remove('success');
+                  inputElement.classList.add('error');
+              }
+          }
+
+          // Basic validation checking
+          validateField(identity, identity.value.trim() !== "");
+          validateField(password, password.value.trim().length >= 4);
+
+          // Evaluate state profiles before processing entry
+          const hasErrors = document.querySelectorAll('input.error').length > 0;
+
+          if (!hasErrors) {
+              // 1. Visually transition to the congratulations state screen
+              loginCard.style.display = 'none';
+              congratsCard.style.display = 'block';
+
+              // 2. Redirect the user to the dashboard after 1.5 seconds
+              setTimeout(() => {
+                  window.location.href = '/dashboard'; 
+              }, 1500);
+          }
+      });
+
+      // Interactive correction logic: remove red error states as the user types
+      document.querySelectorAll('input').forEach(input => {
+          input.addEventListener('input', function() {
+              if (this.classList.contains('error')) {
+                  this.classList.remove('error');
+              }
+          });
+      });

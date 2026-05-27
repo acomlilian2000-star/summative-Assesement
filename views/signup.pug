@@ -1,0 +1,110 @@
+doctype html
+html(lang="en")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport" content="width=device-width, initial-scale=1.0")
+    title Signup Form
+    // External CSS Link
+    link(rel="stylesheet" href="/css/signup.css")
+
+  body
+    .signup-container
+      h2 Signup
+      
+      // Dynamic Success Alert Box
+      #successAlert.success-alert
+        span
+          | Account created successfully! – 
+          a(href="#") Login
+        span#closeAlert.close-btn X
+
+      // Added action and method attributes for backend routing
+      form#signupForm(action="/signup" method="POST" novalidate=true)
+        .form-group
+          input#fullName(type="text" name="fullName" placeholder="Full Name")
+          .error-message Full name is required
+
+        .form-group
+          input#email(type="email" name="email" placeholder="Email")
+          .error-message Please enter a valid email address
+
+        .form-group
+          input#phone(type="text" name="PhoneNumber" placeholder="Phone Number")
+          .error-message Phone number is required
+
+        .form-group
+          input#password(type="password" name="password" placeholder="Password")
+          .error-message Password must be at least 6 characters
+
+        .form-group
+          input#confirmPassword(type="password" name="confirmPassword" placeholder="Confirm Password")
+          .error-message Passwords do not match
+
+        button.btn-submit(type="submit") Signup
+
+      p.footer-text
+        | Have an account? - 
+        a(href="#") Login
+
+    script.
+      const signupForm = document.getElementById('signupForm');
+      const successAlert = document.getElementById('successAlert');
+      const closeAlert = document.getElementById('closeAlert');
+
+      // Integrated Form Validation and Submission Engine
+      signupForm.addEventListener('submit', function(e) {
+          // Keep default prevented while checking front-end layout configurations
+          e.preventDefault(); 
+
+          const fullName = document.getElementById('fullName');
+          const email = document.getElementById('email');
+          const phone = document.getElementById('phone');
+          const password = document.getElementById('password');
+          const confirmPassword = document.getElementById('confirmPassword');
+
+          // Toggles red errors or green success states based on validation conditions
+          function validateField(inputElement, condition) {
+              if (condition) {
+                  inputElement.classList.remove('error');
+                  inputElement.classList.add('success');
+              } else {
+                  inputElement.classList.remove('success');
+                  inputElement.classList.add('error');
+              }
+          }
+
+          // Evaluate form rules
+          validateField(fullName, fullName.value.trim() !== "");
+          validateField(email, email.value.includes('@') && email.value.trim().length > 3);
+          validateField(phone, phone.value.trim() !== "");
+          validateField(password, password.value.length >= 6);
+          validateField(confirmPassword, confirmPassword.value === password.value && confirmPassword.value !== "");
+
+          // Check if any field contains an error class
+          const hasErrors = document.querySelectorAll('input.error').length > 0;
+          
+          if (!hasErrors) {
+              // 1. Show the banner visually for the user experience tracking
+              successAlert.style.display = 'flex';
+              successAlert.scrollIntoView({ behavior: 'smooth' });
+
+              // 2. Submit natively to your Express route after 800ms so the user can glimpse success
+              setTimeout(() => {
+                  signupForm.submit();
+              }, 800);
+          }
+      });
+
+      // Close button functionality for the alert banner
+      closeAlert.addEventListener('click', function() {
+          successAlert.style.display = 'none';
+      });
+
+      // Clean field errors immediately when a user attempts to change data
+      document.querySelectorAll('input').forEach(input => {
+          input.addEventListener('input', function() {
+              if (this.classList.contains('error')) {
+                  this.classList.remove('error');
+              }
+          });
+      });

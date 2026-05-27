@@ -1,0 +1,156 @@
+/* Base Reset & Background */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: #f0f2f5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* Form Card Container */
+.signup-container {
+    background: #ffffff;
+    padding: 40px;
+    border-radius: 4px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    width: 100%;
+    max-width: 450px;
+    text-align: center;
+}
+
+h2 {
+    font-size: 28px;
+    color: #111;
+    margin-bottom: 20px;
+    font-weight: 500;
+}
+
+/* ========================================== */
+/* Success Alert Banner Style                 */
+/* ========================================== */
+.success-alert {
+    background-color: #00b464; /* Vibrant green background */
+    color: white;
+    padding: 12px 16px;
+    border-radius: 4px;
+    margin-bottom: 20px;
+    font-size: 15px;
+    display: none; /* Controlled via JS */
+    justify-content: space-between;
+    align-items: center;
+    text-align: left;
+}
+
+.success-alert a {
+    color: white;
+    text-decoration: underline;
+    font-weight: 500;
+    margin-left: 4px;
+}
+
+.success-alert .close-btn {
+    cursor: pointer;
+    font-weight: bold;
+    font-family: Arial, sans-serif;
+    padding-left: 10px;
+    user-select: none;
+}
+
+/* ========================================== */
+/* Form Groups & Inputs                       */
+/* ========================================== */
+.form-group {
+    margin-bottom: 20px;
+    position: relative;
+}
+
+input {
+    width: 100%;
+    padding: 14px 16px;
+    font-size: 16px;
+    border: 1px solid #73d2de; /* Default light teal border */
+    border-radius: 2px;
+    outline: none;
+    transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+input::placeholder {
+    color: #888888;
+    font-style: italic;
+}
+
+input:focus {
+    border-color: #219ebd;
+}
+
+/* 1. Error Validation UI State */
+input.error {
+    border: 1px solid #ff0000;
+    background-color: #fff9f9; 
+}
+
+/* 2. Success Validation UI State (Typing Correction) */
+input.success {
+    border: 1px solid #10b981; 
+    background-color: #ffffff;
+}
+
+/* Error Text Messaging */
+.error-message {
+    color: #ff0000;
+    font-size: 12px;
+    text-align: left;
+    margin-top: 4px;
+    display: none;
+}
+
+input.error + .error-message {
+    display: block; 
+}
+
+/* ========================================== */
+/* Submit Button Styles                       */
+/* ========================================== */
+.btn-submit {
+    width: 100%;
+    background-color: #5bc0be; /* Default interactive cyan block */
+    color: white;
+    border: none;
+    padding: 14px;
+    font-size: 16px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    border-radius: 4px;
+    margin-top: 10px;
+    transition: background-color 0.2s ease;
+}
+
+/* Purple Hover State from layout */
+.btn-submit:hover {
+    background-color: #5d3563; 
+}
+
+/* Footer Link styling */
+.footer-text {
+    margin-top: 20px;
+    font-size: 14px;
+    color: #666666;
+}
+
+.footer-text a {
+    color: #337ab7;
+    text-decoration: none;
+}
+
+.footer-text a:hover {
+    text-decoration: underline;
+}

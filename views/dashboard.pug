@@ -1,0 +1,204 @@
+doctype html
+html(lang="en")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport" content="width=device-width, initial-scale=1.0")
+    title Management Dashboard System
+
+    link(rel="stylesheet" href="/css/dashboard.css")
+
+  body
+    .dashboard-wrapper
+      
+
+      .main-content
+        
+        
+        .metrics-panel
+          .metric-card.wide
+            .metric-info
+              // Render live dynamic aggregates 
+              h3= sales ? "UGX " + sales.toLocaleString() : "UGX 0"
+              p Sales
+            .metric-divider
+            .metric-info
+              h3= orders ? "UGX " + orders.toLocaleString() : "UGX 0"
+              p Orders
+          
+          .metric-card
+            .metric-info
+              h3.text-green= inStockValue ? "UGX " + inStockValue.toLocaleString() : "UGX 0"
+              p In stock
+              
+          .metric-card
+            .metric-info
+              h3.text-red= outOfStock !== undefined ? outOfStock : 0
+              p Out of stock
+
+        
+        .form-panel
+          h2 Add Product
+          
+          
+          if success_msg && success_msg.length > 0
+            #successAlert.success-alert(style="display: flex; background-color: #00B150; color: #fff; padding: 10px; margin-bottom: 15px; border-radius: 4px; justify-content: space-between; align-items: center;")
+              span#alertText= success_msg
+              span#closeAlert.close-btn(style="cursor: pointer; font-weight: bold;") X
+
+          if error_msg && error_msg.length > 0
+            #errorAlert.error-alert(style="display: flex; background-color: #f8d7da; color: #721c24; padding: 10px; margin-bottom: 15px; border-radius: 4px; justify-content: space-between; align-items: center;")
+              span#alertText= error_msg
+              span#closeErrorAlert.close-btn(style="cursor: pointer; font-weight: bold;") X
+
+          
+          form#productForm(action="/dashboard" method="POST" novalidate=true)
+            .form-grid
+              .form-group
+                input#productName(type="text" name="productName" placeholder="Product Name")
+                .error-message Invalid field
+
+              .form-group
+                select#category(name="category")
+                  option(value="" disabled selected hidden) Category
+                  option(value="Smart Phones") Smart Phones
+                  option(value="Fashion") Fashion
+                  option(value="Interior Design") Interior Design
+                  option(value="Laptops") Laptops
+                .error-message Invalid field
+
+              .form-group
+                input#price(type="number" name="price" placeholder="Price")
+                .error-message Invalid field
+
+              .form-group
+                input#quantity(type="number" name="quantity" placeholder="Quantity")
+                .error-message Invalid field
+
+              .form-group.split
+                input#color(type="text" name="color" placeholder="Color")
+                .error-message Invalid field
+
+              .form-group.split
+                label.file-upload-placeholder(for="imageUpload") Upload Image
+                input#imageUpload(type="file" name="productImage" style="display: none;")
+                .error-message Invalid field
+
+              .form-actions
+                button#btnSave.btn-save(type="submit") Save
+                button#btnClear.btn-clear(type="button") Clear
+
+      // Bottom Row Datatable Grid Framework Panel
+      .table-panel
+        table
+          thead
+            tr
+              th ID
+              th Name
+              th Category
+              th Price (UGX)
+              th Quantity
+          tbody#inventoryTableBody
+            // UPDATE: Dynamically looping live database arrays from Express controller
+            if products && products.length > 0
+              each product in products
+                tr
+                  td= product.productId || "N/A"
+                  td= product.productName
+                  td= product.category
+                  td= product.price.toLocaleString()
+                  td= product.quantity
+            else
+              tr
+                td(colspan="5" style="padding: 30px; color: #888; text-align: center;") No inventory products recorded yet.
+            
+            // Standard layout placeholder empty styling spaces down below
+            tr.empty-row
+              td
+              td
+              td
+              td
+              td
+            tr.empty-row
+              td
+              td
+              td
+              td
+              td
+
+    script.
+      const productForm = document.getElementById('productForm');
+      const btnClear = document.getElementById('btnClear');
+
+      // Integrated Logic Validation Wrapper Engine
+      productForm.addEventListener('submit', function(e) {
+          // Keep submission blocked while verifying UI requirements
+          e.preventDefault();
+
+          const name = document.getElementById('productName');
+          const category = document.getElementById('category');
+          const price = document.getElementById('price');
+          const quantity = document.getElementById('quantity');
+          const color = document.getElementById('color');
+
+          function checkField(inputElement, isValid) {
+              if (isValid) {
+                  inputElement.classList.remove('error');
+              } else {
+                  inputElement.classList.add('error');
+              }
+          }
+
+          // Evaluate field validation metrics rules
+          checkField(name, name.value.trim() !== "");
+          checkField(category, category.value !== "");
+          checkField(price, price.value.trim() !== "" && parseFloat(price.value) > 0);
+          checkField(quantity, quantity.value.trim() !== "" && parseInt(quantity.value) >= 0);
+          checkField(color, color.value.trim() !== "");
+
+          const errorCount = document.querySelectorAll('.form-panel .error').length;
+
+          if (errorCount === 0) {
+              // Submit natively to your Express POST route to store the item securely
+              productForm.submit();
+          }
+      });
+
+      // Clear functionality command interaction logic execution
+      btnClear.addEventListener('click', function() {
+          clearForm();
+          clearErrorIndicators();
+      });
+
+      // ✅ CORRECTED: Safer close alert listeners that don't crash if the alert elements are not currently rendered
+      const successAlert = document.getElementById('successAlert');
+      const closeAlert = document.getElementById('closeAlert');
+      if (closeAlert && successAlert) {
+          closeAlert.addEventListener('click', function() {
+              successAlert.style.display = 'none';
+          });
+      }
+
+      const errorAlert = document.getElementById('errorAlert');
+      const closeErrorAlert = document.getElementById('closeErrorAlert');
+      if (closeErrorAlert && errorAlert) {
+          closeErrorAlert.addEventListener('click', function() {
+              errorAlert.style.display = 'none';
+          });
+      }
+
+      function clearForm() {
+          productForm.reset();
+      }
+
+      function clearErrorIndicators() {
+          document.querySelectorAll('.form-panel .error').forEach(element => {
+              element.classList.remove('error');
+          });
+      }
+
+      // Dynamic cleanup runtime loop: remove active outline red configurations on input typing
+      document.querySelectorAll('input, select').forEach(element => {
+          element.addEventListener('input', function() {
+              this.classList.remove('error');
+          });
+      });
