@@ -1,286 +1,271 @@
-/* Base Reset & Core Setup */
 * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
 body {
-    background-color: #f3f4f6;
-    padding: 30px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    min-height: 100vh;
+  background-color: #f3f4f6;
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
 }
 
-/* Page Layout Wrapper */
 .dashboard-wrapper {
-    width: 100%;
-    max-width: 1200px;
-    display: flex;
-    flex-direction: column;
-    gap: 25px;
+  width: 100%;
+  max-width: 1200px;
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
 }
 
 .main-content {
-    display: grid;
-    grid-template-columns: 1.2fr 1fr;
-    gap: 25px;
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 25px;
 }
 
-/* ========================================== */
-/* Metric Cards Grid Panel                    */
-/* ========================================== */
 .metrics-panel {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
 }
 
 .metric-card {
-    background: #ffffff;
-    border-radius: 6px;
-    padding: 30px 24px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
-    border: 1px solid #e5e7eb;
-    display: flex;
-    align-items: center;
-    min-height: 140px;
+  background: #ffffff;
+  border-radius: 6px;
+  padding: 30px 24px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+  border: 1px solid #e5e7eb;
+  display: flex;
+  align-items: center;
+  min-height: 140px;
 }
 
-/* Double column wide layout variation */
 .metric-card.wide {
-    grid-column: span 2;
-    justify-content: flex-start;
-    gap: 40px;
+  grid-column: span 2;
+  justify-content: flex-start;
+  gap: 40px;
 }
 
 .metric-divider {
-    width: 1px;
-    background-color: #e5e7eb;
-    height: 60px;
+  width: 1px;
+  background-color: #e5e7eb;
+  height: 60px;
 }
 
 .metric-info h3 {
-    font-size: 26px;
-    color: #111111;
-    font-weight: 700;
-    margin-bottom: 4px;
+  font-size: 26px;
+  color: #111111;
+  font-weight: 700;
+  margin-bottom: 4px;
 }
 
 .metric-info p {
-    font-size: 14px;
-    color: #6b7280;
-    font-weight: 500;
+  font-size: 14px;
+  color: #6b7280;
+  font-weight: 500;
 }
 
 /* Custom Metric Colors */
 .text-green {
-    color: #10b981 !important;
+  color: #10b981 !important;
 }
 
 .text-red {
-    color: #ef4444 !important;
+  color: #ef4444 !important;
 }
-
-/* ========================================== */
-/* Add Product Form Panel                     */
-/* ========================================== */
 .form-panel {
-    background: #ffffff;
-    border-radius: 6px;
-    padding: 24px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
-    border: 1px solid #e5e7eb;
+  background: #ffffff;
+  border-radius: 6px;
+  padding: 24px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+  border: 1px solid #e5e7eb;
 }
 
 .form-panel h2 {
-    font-size: 20px;
-    color: #111111;
-    margin-bottom: 20px;
-    font-weight: 600;
+  font-size: 20px;
+  color: #111111;
+  margin-bottom: 20px;
+  font-weight: 600;
 }
 
-/* Form Management Alert Box */
 .success-alert {
-    background-color: #00b464;
-    color: white;
-    padding: 12px 16px;
-    border-radius: 4px;
-    margin-bottom: 16px;
-    font-size: 14px;
-    display: none; /* Controlled via operational script */
-    justify-content: space-between;
-    align-items: center;
+  background-color: #00b464;
+  color: white;
+  padding: 12px 16px;
+  border-radius: 4px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  display: none;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .success-alert .close-btn {
-    cursor: pointer;
-    font-weight: bold;
-    font-family: Arial, sans-serif;
-    user-select: none;
+  cursor: pointer;
+  font-weight: bold;
+  font-family: Arial, sans-serif;
+  user-select: none;
 }
 
-/* Inputs Layout Grid Structure */
 .form-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
 }
 
 .form-group {
-    grid-column: span 2;
-    position: relative;
+  grid-column: span 2;
+  position: relative;
 }
 
 .form-group.split {
-    grid-column: span 1;
+  grid-column: span 1;
 }
 
-input, select {
-    width: 100%;
-    padding: 12px 14px;
-    font-size: 14px;
-    border: 1px solid #e5e7eb;
-    border-radius: 4px;
-    outline: none;
-    background-color: #ffffff;
-    color: #111111;
-    transition: border-color 0.2s ease, background-color 0.2s ease;
+input,
+select {
+  width: 100%;
+  padding: 12px 14px;
+  font-size: 14px;
+  border: 1px solid #e5e7eb;
+  border-radius: 4px;
+  outline: none;
+  background-color: #ffffff;
+  color: #111111;
+  transition:
+    border-color 0.2s ease,
+    background-color 0.2s ease;
 }
 
 input::placeholder {
-    color: #9ca3af;
+  color: #9ca3af;
 }
 
-/* Custom File Upload Box styling simulation */
 .file-upload-placeholder {
-    display: block;
-    width: 100%;
-    padding: 12px 14px;
-    font-size: 14px;
-    border: 1px solid #e5e7eb;
-    border-radius: 4px;
-    color: #9ca3af;
-    text-align: center;
-    background-color: #ffffff;
-    cursor: pointer;
-    user-select: none;
+  display: block;
+  width: 100%;
+  padding: 12px 14px;
+  font-size: 14px;
+  border: 1px solid #e5e7eb;
+  border-radius: 4px;
+  color: #9ca3af;
+  text-align: center;
+  background-color: #ffffff;
+  cursor: pointer;
+  user-select: none;
 }
 
-/* Interactive Border Focus Override States */
-input:focus, select:focus {
-    border-color: #73d2de;
+input:focus,
+select:focus {
+  border-color: #73d2de;
 }
 
-/* Dynamic Interactive Error States */
-input.error, select.error {
-    border: 1px solid #ff0000 !important;
+input.error,
+select.error {
+  border: 1px solid #ff0000 !important;
 }
 
 .error-message {
-    color: #ff0000;
-    font-size: 11px;
-    text-align: left;
-    margin-top: 3px;
-    display: none;
+  color: #ff0000;
+  font-size: 11px;
+  text-align: left;
+  margin-top: 3px;
+  display: none;
 }
 
 input.error + .error-message,
 select.error + .error-message,
 input.error ~ .error-message {
-    display: block;
+  display: block;
 }
 
-/* Form Action Control Panel Layout */
 .form-actions {
-    grid-column: span 2;
-    display: flex;
-    gap: 16px;
-    margin-top: 10px;
+  grid-column: span 2;
+  display: flex;
+  gap: 16px;
+  margin-top: 10px;
 }
 
 .btn-save {
-    flex: 1;
-    background-color: #f27a32; /* Orange Action Primary Accent */
-    color: white;
-    border: none;
-    padding: 14px;
-    font-size: 14px;
-    font-weight: bold;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    cursor: pointer;
-    border-radius: 4px;
-    transition: background-color 0.2s ease;
+  flex: 1;
+  background-color: #f27a32;
+  color: white;
+  border: none;
+  padding: 14px;
+  font-size: 14px;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
 }
 
 .btn-save:hover {
-    background-color: #d66420;
+  background-color: #d66420;
 }
 
 .btn-clear {
-    flex: 1;
-    background-color: #cccccc; /* Neutral Grey Clear Block */
-    color: #111111;
-    border: none;
-    padding: 14px;
-    font-size: 14px;
-    font-weight: bold;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    cursor: pointer;
-    border-radius: 4px;
-    transition: background-color 0.2s ease;
+  flex: 1;
+  background-color: #cccccc;
+  color: #111111;
+  border: none;
+  padding: 14px;
+  font-size: 14px;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
 }
 
 .btn-clear:hover {
-    background-color: #b3b3b3;
+  background-color: #b3b3b3;
 }
 
-/* ========================================== */
-/* Inventory Datatable Design Module          */
-/* ========================================== */
 .table-panel {
-    width: 100%;
-    background: #ffffff;
-    border-radius: 6px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
-    border: 1px solid #e5e7eb;
-    overflow: hidden;
+  width: 100%;
+  background: #ffffff;
+  border-radius: 6px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+  border: 1px solid #e5e7eb;
+  overflow: hidden;
 }
 
 table {
-    width: 100%;
-    border-collapse: collapse;
-    text-align: center;
+  width: 100%;
+  border-collapse: collapse;
+  text-align: center;
 }
 
 th {
-    background-color: #000000;
-    color: #ffffff;
-    font-size: 13px;
-    font-weight: 700;
-    text-transform: uppercase;
-    padding: 14px;
-    letter-spacing: 0.5px;
+  background-color: #000000;
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 14px;
+  letter-spacing: 0.5px;
 }
 
 td {
-    padding: 12px 14px;
-    font-size: 14px;
-    color: #333333;
-    border-bottom: 1px solid #e5e7eb;
+  padding: 12px 14px;
+  font-size: 14px;
+  color: #333333;
+  border-bottom: 1px solid #e5e7eb;
 }
 
 tr:last-child td {
-    border-bottom: none;
+  border-bottom: none;
 }
 
-/* Empty placeholder row border handling */
 tr.empty-row td {
-    height: 45px;
-    background-color: #ffffff;
+  height: 45px;
+  background-color: #ffffff;
 }

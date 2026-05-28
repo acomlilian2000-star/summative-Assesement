@@ -4,21 +4,25 @@ html(lang="en")
     meta(charset="UTF-8")
     meta(name="viewport" content="width=device-width, initial-scale=1.0")
     title Signup Form
-    // External CSS Link
+
     link(rel="stylesheet" href="/css/signup.css")
 
   body
     .signup-container
       h2 Signup
-      
-      // Dynamic Success Alert Box
-      #successAlert.success-alert
-        span
-          | Account created successfully! – 
-          a(href="#") Login
-        span#closeAlert.close-btn X
 
-      // Added action and method attributes for backend routing
+      if success_msg && success_msg.length > 0
+        #successAlert.success-alert(style="display: flex; background-color: #00B150; color: #fff; padding: 10px; margin-bottom: 15px; border-radius: 4px; justify-content: space-between; align-items: center;")
+          span
+            | #{success_msg} – 
+            a(href="/login" style="color: #fff; text-decoration: underline;") Login
+          span#closeAlert.close-btn(style="cursor: pointer; font-weight: bold;") X
+
+      if error_msg && error_msg.length > 0
+        #errorAlert.error-alert(style="display: flex; background-color: #f8d7da; color: #721c24; padding: 10px; margin-bottom: 15px; border-radius: 4px; justify-content: space-between; align-items: center;")
+          span= error_msg
+          span#closeErrorAlert.close-btn(style="cursor: pointer; font-weight: bold;") X
+
       form#signupForm(action="/signup" method="POST" novalidate=true)
         .form-group
           input#fullName(type="text" name="fullName" placeholder="Full Name")
@@ -44,16 +48,12 @@ html(lang="en")
 
       p.footer-text
         | Have an account? - 
-        a(href="#") Login
+        a(href="/login") Login
 
     script.
       const signupForm = document.getElementById('signupForm');
-      const successAlert = document.getElementById('successAlert');
-      const closeAlert = document.getElementById('closeAlert');
 
-      // Integrated Form Validation and Submission Engine
       signupForm.addEventListener('submit', function(e) {
-          // Keep default prevented while checking front-end layout configurations
           e.preventDefault(); 
 
           const fullName = document.getElementById('fullName');
@@ -62,7 +62,6 @@ html(lang="en")
           const password = document.getElementById('password');
           const confirmPassword = document.getElementById('confirmPassword');
 
-          // Toggles red errors or green success states based on validation conditions
           function validateField(inputElement, condition) {
               if (condition) {
                   inputElement.classList.remove('error');
@@ -73,34 +72,43 @@ html(lang="en")
               }
           }
 
-          // Evaluate form rules
           validateField(fullName, fullName.value.trim() !== "");
           validateField(email, email.value.includes('@') && email.value.trim().length > 3);
           validateField(phone, phone.value.trim() !== "");
           validateField(password, password.value.length >= 6);
           validateField(confirmPassword, confirmPassword.value === password.value && confirmPassword.value !== "");
 
-          // Check if any field contains an error class
           const hasErrors = document.querySelectorAll('input.error').length > 0;
           
           if (!hasErrors) {
-              // 1. Show the banner visually for the user experience tracking
-              successAlert.style.display = 'flex';
-              successAlert.scrollIntoView({ behavior: 'smooth' });
+              const successAlert = document.getElementById('successAlert');
+              if (successAlert) {
+                  successAlert.style.display = 'flex';
+                  successAlert.scrollIntoView({ behavior: 'smooth' });
+              }
 
-              // 2. Submit natively to your Express route after 800ms so the user can glimpse success
               setTimeout(() => {
                   signupForm.submit();
               }, 800);
           }
       });
 
-      // Close button functionality for the alert banner
-      closeAlert.addEventListener('click', function() {
-          successAlert.style.display = 'none';
-      });
+      const successAlert = document.getElementById('successAlert');
+      const closeAlert = document.getElementById('closeAlert');
+      if (closeAlert && successAlert) {
+          closeAlert.addEventListener('click', function() {
+              successAlert.style.display = 'none';
+          });
+      }
 
-      // Clean field errors immediately when a user attempts to change data
+      const errorAlert = document.getElementById('errorAlert');
+      const closeErrorAlert = document.getElementById('closeErrorAlert');
+      if (closeErrorAlert && errorAlert) {
+          closeErrorAlert.addEventListener('click', function() {
+              errorAlert.style.display = 'none';
+          });
+      }
+
       document.querySelectorAll('input').forEach(input => {
           input.addEventListener('input', function() {
               if (this.classList.contains('error')) {

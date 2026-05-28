@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 
-// FIX: Add .default || to handle object wrapper imports safely
 const passportLocalMongoose = require('passport-local-mongoose').default || require('passport-local-mongoose');
 
 const UserSchema = new mongoose.Schema({
@@ -26,7 +25,7 @@ const UserSchema = new mongoose.Schema({
   }
 });
 
-// Now this will receive the correct function parameter instead of an object
+
 UserSchema.plugin(passportLocalMongoose, {
   usernameField: "email"
 });

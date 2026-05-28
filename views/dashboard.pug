@@ -9,37 +9,32 @@ html(lang="en")
 
   body
     .dashboard-wrapper
-      
 
       .main-content
-        
-        
+
         .metrics-panel
           .metric-card.wide
             .metric-info
-              // Render live dynamic aggregates 
               h3= sales ? "UGX " + sales.toLocaleString() : "UGX 0"
               p Sales
             .metric-divider
             .metric-info
               h3= orders ? "UGX " + orders.toLocaleString() : "UGX 0"
               p Orders
-          
+
           .metric-card
             .metric-info
               h3.text-green= inStockValue ? "UGX " + inStockValue.toLocaleString() : "UGX 0"
               p In stock
-              
+
           .metric-card
             .metric-info
               h3.text-red= outOfStock !== undefined ? outOfStock : 0
               p Out of stock
 
-        
         .form-panel
           h2 Add Product
-          
-          
+
           if success_msg && success_msg.length > 0
             #successAlert.success-alert(style="display: flex; background-color: #00B150; color: #fff; padding: 10px; margin-bottom: 15px; border-radius: 4px; justify-content: space-between; align-items: center;")
               span#alertText= success_msg
@@ -50,7 +45,6 @@ html(lang="en")
               span#alertText= error_msg
               span#closeErrorAlert.close-btn(style="cursor: pointer; font-weight: bold;") X
 
-          
           form#productForm(action="/dashboard" method="POST" novalidate=true)
             .form-grid
               .form-group
@@ -87,7 +81,6 @@ html(lang="en")
                 button#btnSave.btn-save(type="submit") Save
                 button#btnClear.btn-clear(type="button") Clear
 
-      // Bottom Row Datatable Grid Framework Panel
       .table-panel
         table
           thead
@@ -98,7 +91,7 @@ html(lang="en")
               th Price (UGX)
               th Quantity
           tbody#inventoryTableBody
-            // UPDATE: Dynamically looping live database arrays from Express controller
+
             if products && products.length > 0
               each product in products
                 tr
@@ -110,8 +103,7 @@ html(lang="en")
             else
               tr
                 td(colspan="5" style="padding: 30px; color: #888; text-align: center;") No inventory products recorded yet.
-            
-            // Standard layout placeholder empty styling spaces down below
+
             tr.empty-row
               td
               td
@@ -129,9 +121,7 @@ html(lang="en")
       const productForm = document.getElementById('productForm');
       const btnClear = document.getElementById('btnClear');
 
-      // Integrated Logic Validation Wrapper Engine
       productForm.addEventListener('submit', function(e) {
-          // Keep submission blocked while verifying UI requirements
           e.preventDefault();
 
           const name = document.getElementById('productName');
@@ -148,7 +138,6 @@ html(lang="en")
               }
           }
 
-          // Evaluate field validation metrics rules
           checkField(name, name.value.trim() !== "");
           checkField(category, category.value !== "");
           checkField(price, price.value.trim() !== "" && parseFloat(price.value) > 0);
@@ -158,18 +147,15 @@ html(lang="en")
           const errorCount = document.querySelectorAll('.form-panel .error').length;
 
           if (errorCount === 0) {
-              // Submit natively to your Express POST route to store the item securely
               productForm.submit();
           }
       });
 
-      // Clear functionality command interaction logic execution
       btnClear.addEventListener('click', function() {
           clearForm();
           clearErrorIndicators();
       });
 
-      // ✅ CORRECTED: Safer close alert listeners that don't crash if the alert elements are not currently rendered
       const successAlert = document.getElementById('successAlert');
       const closeAlert = document.getElementById('closeAlert');
       if (closeAlert && successAlert) {
@@ -196,7 +182,6 @@ html(lang="en")
           });
       }
 
-      // Dynamic cleanup runtime loop: remove active outline red configurations on input typing
       document.querySelectorAll('input, select').forEach(element => {
           element.addEventListener('input', function() {
               this.classList.remove('error');
